@@ -6,7 +6,7 @@ from telebot.types import ReplyKeyboardMarkup,KeyboardButton
 from key import TOKEN, ID
 
 bot = telebot.TeleBot(TOKEN)
-
+number=1
 
 def hi():
     bot.send_message(ID, "PON")
@@ -14,11 +14,31 @@ def hi():
 @bot.message_handler(commands=["start"])
 def start(message):
     baton=ReplyKeyboardMarkup()
-    baton1=KeyboardButton("pooooooooooonnnnnnnnnn")
-    baton.add(baton1)
+    baton1=KeyboardButton("/screenshot")
+    baton2=KeyboardButton("/casino")
+    baton3=KeyboardButton("/game_guess_the_number")
+    baton.add(baton1,baton2)
+    baton.add(baton3)
+
     bot.send_message(message.from_user.id,
                      "Hi welcome sorry for using english keyboard if you don't understand it i just don't have another keyboard",
                      reply_markup=baton)
+
+@bot.message_handler(commands=["game_guess_the_number"])
+def spike(message):
+    baton = ReplyKeyboardMarkup()
+    baton4=KeyboardButton("/yes")
+    baton5=KeyboardButton("/no")
+    baton.add(baton4,baton5)
+    bot.send_message(message.from_user.id,
+                     "think of the number between 1-20,is you number 1?",
+                     reply_markup=baton)
+@bot.message_handler(commands=["no"])
+def start(message):
+    global number
+    number+=1
+    bot.send_message(message.from_user.id,
+                     f"is you number bigger than {number}?",)
 @bot.message_handler(commands=["screenshot"])
 def start(message):
     from subprocess import call
